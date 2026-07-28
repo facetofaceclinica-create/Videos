@@ -4,6 +4,23 @@
 *.pem
 *.key
 
+# === Material bruto / footage (arquivos grandes — não versionar; GitHub rejeita >100 MB) ===
+# O material fica no Drive/local; as saídas de edição já vão em edit/ (ignorado acima).
+*.mov
+*.MOV
+*.mp4
+*.MP4
+*.m4v
+*.M4V
+*.mkv
+*.avi
+*.webm
+*.mts
+*.wav
+*.mp3
+*.aac
+*.m4a
+
 # === Python ===
 __pycache__/
 *.py[cod]
