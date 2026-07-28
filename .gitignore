@@ -1,0 +1,62 @@
+# === Segredos (NUNCA commitar) ===
+.env
+.env.local
+*.pem
+*.key
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === Ambientes virtuais ===
+.venv/
+venv/
+env/
+ENV/
+
+# === Editores / SO ===
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# === Node / Remotion (instalados sob demanda, não versionados) ===
+node_modules/
+package-lock.json
+yarn.lock
+.npm/
+
+# === Artefatos de render do Manim ===
+media/
+*.log
+
+# === Saídas de sessão do video-use ===
+# Tudo abaixo é gerado em <pasta_dos_videos>/edit/ a cada sessão.
+# Para PERSISTIR algo específico (ex.: a memória do projeto), use:
+#   git add -f edit/project.md
+edit/
+transcripts/
+animations/
+clips_graded/
+clips_preview/
+downloads/
+verify/
+preview.mp4
+final.mp4
+base.mp4
+base_preview.mp4
+master.srt
+takes_packed.md
+edl.json
+project.md
