@@ -1,0 +1,105 @@
+{
+  "name": "padrão",
+  "descricao": "Preset de reels da clínica (harmonização facial). Referência rápida dos valores; a implementação canônica é build.py / retouch.py / make_title_anim.py e a documentação é PADRAO.md.",
+  "formato": { "w": 1080, "h": 1920, "fps": 30, "orientacao": "9:16 vertical" },
+  "corte": {
+    "pad_in_s": 0.05,
+    "pad_out_s": 0.14,
+    "gap_min_s": 0.30,
+    "palavras_por_legenda": 3,
+    "audio_fade_s": 0.03,
+    "asr": "ElevenLabs Scribe (por palavra, cacheado, nunca re-transcrever)"
+  },
+  "cor": {
+    "tonemap_hdr_para_sdr": "zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p",
+    "grade_eq": "contrast=1.06:saturation=0.94:gamma=1.01",
+    "grade_colorbalance": "rs=-0.02:bs=0.028:rm=0.012:bm=-0.006:rh=0.028:bh=-0.024",
+    "grade_curves": "master='0/0.012 0.5/0.5 1/0.988'",
+    "vignette": "angle=PI/4.7",
+    "ordem_filtros": ["grade", "zoompan", "flash", "vignette"]
+  },
+  "legenda": {
+    "fonte": "Montserrat",
+    "tamanho": 64,
+    "cor": "&H00FFFFFF (branco)",
+    "contorno_cor": "&H00000000 (preto)",
+    "contorno": 3,
+    "sombra": 1,
+    "alinhamento": "2 (base-centro)",
+    "margin_v": 360,
+    "margin_l": 96,
+    "margin_r": 96,
+    "caixa": "normal (capitaliza início de frase)",
+    "continua": true,
+    "dur_min_s": 0.45,
+    "render": "por último (depois de todos os filtros de vídeo)"
+  },
+  "gancho": {
+    "efeito": "texto atrás da pessoa (rembg u2net_human_seg) + deslize X saindo de trás da cabeça",
+    "fonte_destaque": "EB Garamond Italic",
+    "fonte_linhas": "Montserrat Medium",
+    "dourado_rgba": [201, 160, 70, 255],
+    "creme_rgba": [248, 244, 236, 255],
+    "tamanho_destaque": 212,
+    "tamanho_linhas_max": 66,
+    "largura_max_linhas": 615,
+    "borda_esq_final_x": 430,
+    "deslize_x": 250,
+    "dur_deslize_s": 0.85,
+    "fade_in_s": 0.30,
+    "fade_out_s": 0.40,
+    "frames": 86
+  },
+  "transicoes": {
+    "tipo": "zoom-punch (zoompan, não-destrutivo) + flash na revelação",
+    "zoom_revelacao": 0.10,
+    "zoom_revelacao_sigma": 3.2,
+    "zoom_cta": 0.085,
+    "zoom_cta_sigma": 3.0,
+    "flash_amp": 0.12,
+    "flash_sigma_s": 0.055,
+    "pontos": "revelação = 1º segmento do 2º clipe (before->after); CTA = 1ª palavra do CTA"
+  },
+  "retoque": {
+    "quem": "APENAS o apresentador (rosto maior). Paciente NUNCA é retocada.",
+    "nivel": "mais sutil",
+    "smooth_S": 0.42,
+    "lift_L": 0.33,
+    "gamma": 0.93,
+    "min_face_px": 200,
+    "bilateral": [11, 50, 50],
+    "feather_blur": 9,
+    "malha": "mediapipe FaceMesh 0.10.14 — oval do rosto menos olhos/sobrancelhas/boca"
+  },
+  "selo": {
+    "arquivo": "assets/passo_fundo.png",
+    "transparencia": "real (RGBA)",
+    "escala_largura": 380,
+    "posicao": "topo-centro, y=85",
+    "regra": "não tapar rostos"
+  },
+  "audio": {
+    "loudnorm_I": -14,
+    "loudnorm_TP": -1,
+    "loudnorm_LRA": 11,
+    "linear": true,
+    "codec": "aac 192k 48kHz"
+  },
+  "encode": {
+    "segmento": "libx264 preset medium crf 17",
+    "composite": "libx264 preset slow crf 18",
+    "pix_fmt": "yuv420p",
+    "faststart": true
+  },
+  "entrega": {
+    "master": "final_combined.mp4 (~52s, ~54MB) -> branch entrega/reel-final (git add -f)",
+    "instagram": "2-pass CBR ~4600k -> <=29.8 MiB (limite SendUserFile 30 MiB)",
+    "regra": "vídeos grandes NUNCA no branch de código (.gitignore ignora *.mov/*.mp4/edit/)"
+  },
+  "dependencias": {
+    "apt_fontes": ["fonts-ebgaramond", "fonts-montserrat"],
+    "pip": ["mediapipe==0.10.14", "opencv-python", "pillow", "numpy", "rembg"],
+    "cli": ["ffmpeg", "ffprobe"],
+    "api": "ElevenLabs Scribe (chave em .env — NUNCA commitar)"
+  }
+}
